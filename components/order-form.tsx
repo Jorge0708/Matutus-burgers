@@ -38,7 +38,7 @@ export function OrderForm({ isOpen, onClose, cartItems, totalPrice, onOrderCompl
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [validationErrors, setValidationErrors] = useState<string[]>([])
 
-  const deliveryFee = customerData.deliveryType === "delivery" ? 5.0 : 0
+  const deliveryFee = customerData.deliveryType === "delivery" ? 0.0 : 0
   const finalTotal = totalPrice + deliveryFee
 
   const validateCustomerData = () => {
@@ -264,7 +264,7 @@ export function OrderForm({ isOpen, onClose, cartItems, totalPrice, onOrderCompl
                 <div className="flex items-center space-x-3 p-3 rounded-lg border hover:bg-muted/50">
                   <RadioGroupItem value="delivery" id="delivery" />
                   <Label htmlFor="delivery" className="font-semibold">
-                    Entrega (+ R$ 5,00)
+                    Entrega (+ R$ 0,00) Em até 6km
                   </Label>
                 </div>
                 <div className="flex items-center space-x-3 p-3 rounded-lg border hover:bg-muted/50">

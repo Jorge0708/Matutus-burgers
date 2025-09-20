@@ -26,7 +26,7 @@ const menuItems: MenuItem[] = [
   {
     id: 1, // Usando números em vez de strings
     name: "MATUTU'S BURGUER",
-    description: "Blend bovino 80g queijo cheddar, salada e maionese.",
+    description: "Carne bovina 80g queijo cheddar, salada e maionese.",
     price: 16.0,
     category: "burgers",
     popular: true,
@@ -34,21 +34,21 @@ const menuItems: MenuItem[] = [
   {
     id: 2,
     name: "PUXA VIDA",
-    description: "Blend bovino de 80g queijo e maionese",
+    description: "Carne bovina de 80g queijo e maionese",
     price: 15.0,
     category: "burgers",
   },
   {
     id: 3,
     name: "CABRA DA PESTE",
-    description: "Blend bovino de 80g queijo cheddar, salada e ovo",
+    description: "Carne bovina de 80g queijo cheddar, salada e ovo",
     price: 17.0,
     category: "burgers",
   },
   {
     id: 4,
     name: "OXE",
-    description: "blend bovino de 80g queijo cheddar, maionese e bacon",
+    description: "Carne bovina de 80g queijo cheddar, maionese e bacon",
     price: 18.0,
     category: "burgers",
     popular: true,
@@ -56,7 +56,7 @@ const menuItems: MenuItem[] = [
   {
     id: 5,
     name: "OXENTE",
-    description: "2 Blend bovinos de 80g queijo cheddar maionese e bacon",
+    description: "2 Carne bovinas de 80g queijo cheddar maionese e bacon",
     price: 20.0,
     category: "burgers",
   },
@@ -64,7 +64,7 @@ const menuItems: MenuItem[] = [
   {
     id: 6,
     name: "MEU FI",
-    description: "Blend bovino de 150g queijo cheddar, cheddar cremoso maionese.",
+    description: "Carne bovina de 150g queijo cheddar, cheddar cremoso maionese.",
     price: 22.0,
     category: "supremos",
     popular: true,
@@ -72,14 +72,14 @@ const menuItems: MenuItem[] = [
   {
     id: 7,
     name: "LAMPIÃO BURGUER",
-    description: "Blend bovino de 150g 2 fatias de queijo coalho, maionese, carne de sol Desfiada.",
+    description: "Carne bovina de 150g 2 fatias de queijo coalho, maionese, carne de sol Desfiada.",
     price: 25.0,
     category: "supremos",
   },
   {
     id: 8,
     name: "MATUTÃO",
-    description: "2 Hambu bovinos de 150g queijo cheddar,bacon,ovo, carne de sol desfiada.",
+    description: "2 Carne bovinas de 150g queijo cheddar,bacon,ovo, carne de sol desfiada.",
     price: 28.0,
     category: "supremos",
   },
@@ -171,6 +171,7 @@ export default function HomePage() {
             </div>
             <div className="flex items-center space-x-4">
               <div className="hidden md:flex items-center space-x-6 text-sm text-gray-300">
+                
                 <div className="flex items-center space-x-2">
                   <Clock className="w-4 h-4 text-primary" />
                   <span>18h-23h</span>
@@ -224,6 +225,9 @@ export default function HomePage() {
             <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
               Hambúrgueres artesanais feitos com ingredientes frescos e muito amor. Peça agora e receba em casa ou
               retire no balcão!
+            </p>
+            <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
+              Rua SAN Martin 98 - Céu azul, Camaragibe - PE 
             </p>
             <Button
               size="lg"

@@ -116,37 +116,33 @@ export function OrderForm({ isOpen, onClose, cartItems, totalPrice, onOrderCompl
     return encodeURIComponent(message)
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setValidationErrors([])
+  const handleSubmit = (e: React.FormEvent) => {
+  e.preventDefault()
+  setValidationErrors([])
 
-    const validation = validateCustomerData()
-    if (!validation.isValid) {
-      setValidationErrors(validation.errors)
-      return
-    }
-
-    setIsSubmitting(true)
-
-    try {
-      // Simular processamento
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      const orderNum = generateSecureOrderId()
-      setOrderNumber(orderNum)
-
-      const whatsappMessage = formatWhatsAppMessage(orderNum)
-      const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "5581995130952"
-      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`
-
-      window.open(whatsappUrl, "_blank")
-      setShowConfirmation(true)
-    } catch (error) {
-      setValidationErrors(["Erro ao processar pedido. Tente novamente."])
-    } finally {
-      setIsSubmitting(false)
-    }
+  const validation = validateCustomerData()
+  if (!validation.isValid) {
+    setValidationErrors(validation.errors)
+    return
   }
+
+  // Gerar número do pedido
+  const orderNum = generateSecureOrderId()
+  setOrderNumber(orderNum)
+
+  // Montar mensagem do WhatsApp
+  const whatsappMessage = formatWhatsAppMessage(orderNum)
+  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "5581995130952"
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`
+
+  // Mostrar modal de confirmação
+  setShowConfirmation(true)
+
+  // Abrir WhatsApp direto no mesmo clique do usuário
+  setTimeout(() => {
+    window.location.href = whatsappUrl
+  }, 100) // delay mínimo para garantir que o modal renderize
+}
 
   const handleConfirmationClose = () => {
     setShowConfirmation(false)

@@ -135,7 +135,8 @@ export default function HomePage() {
         (prev) =>
           prev.map((item) =>
             item.id === id && item.observations === observations ? { ...item, quantity: Math.min(quantity, 10) } : item,
-          ), // Limitando quantidade
+          ), 
+          // Limitando quantidade
       )
     }
   }
@@ -272,6 +273,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      
 
       {/* Info Section */}
       <section className="bg-black py-16">

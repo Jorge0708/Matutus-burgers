@@ -94,7 +94,7 @@ const menuItems: MenuItem[] = [
   {
     id: 10,
     name: "Suco Natural 400ml",
-    description: "Laranja, limão ou maracujá",
+    description: " Maracujá, acerola e graviola",
     price: 7.0,
     category: "drinks",
   },
@@ -105,6 +105,14 @@ const menuItems: MenuItem[] = [
     price: 10.0,
     category: "sides",
   },
+  {
+    id: 12,
+    name: "Batata Frita bacon e cheddar",
+    description: "Porção individual crocante com tempero especial",
+    price: 15.0,
+    category: "sides",
+  },
+  
 ]
 
 export default function HomePage() {

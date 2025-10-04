@@ -23,6 +23,31 @@ interface OrderFormProps {
   onOrderComplete: () => void
 }
 
+// 👇 Mapa de bairros e taxas de entrega
+const taxasPorBairro: Record<string, number> = {
+  "céu azul": 5.00,
+  "timbi": 6.00,
+  "bairro novo": 7.00,
+  "João Paulo": 8.00,
+  "santa monita": 8.00,
+  "santana": 9.00,
+  "tabatinga": 10.00,
+  "alberto maia": 8.00,
+  "são lourenço": 12.00,
+  "varzea": 12.00,
+}
+
+// 👇 Função que verifica se o endereço contém algum bairro do mapa
+const calcularTaxaEntrega = (endereco: string) => {
+  const enderecoLower = endereco.toLowerCase()
+  for (const bairro in taxasPorBairro) {
+    if (enderecoLower.includes(bairro)) {
+      return taxasPorBairro[bairro]
+    }
+  }
+  return 0 // valor padrão caso o bairro não esteja no mapa
+}
+
 export function OrderForm({ isOpen, onClose, cartItems, totalPrice, onOrderComplete }: OrderFormProps) {
   const [customerData, setCustomerData] = useState({
     name: "",
@@ -38,7 +63,11 @@ export function OrderForm({ isOpen, onClose, cartItems, totalPrice, onOrderCompl
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [validationErrors, setValidationErrors] = useState<string[]>([])
 
-  const deliveryFee = customerData.deliveryType === "delivery" ? 0.0 : 0
+  // 👇 Agora a taxa depende do bairro
+  const deliveryFee = customerData.deliveryType === "delivery"
+    ? calcularTaxaEntrega(customerData.address)
+    : 0
+
   const finalTotal = totalPrice + deliveryFee
 
   const validateCustomerData = () => {
@@ -53,12 +82,10 @@ export function OrderForm({ isOpen, onClose, cartItems, totalPrice, onOrderCompl
         observations: customerData.observations ? sanitizeInput(customerData.observations) : undefined,
       })
 
-      // Validação adicional de telefone
       if (!validatePhoneNumber(validatedData.phone)) {
         errors.push("Número de telefone inválido")
       }
 
-      // Validação de endereço para delivery
       if (customerData.deliveryType === "delivery" && !customerData.address.trim()) {
         errors.push("Endereço é obrigatório para entrega")
       }
@@ -117,38 +144,33 @@ export function OrderForm({ isOpen, onClose, cartItems, totalPrice, onOrderCompl
   }
 
   const handleSubmit = (e: React.FormEvent) => {
-  e.preventDefault()
-  setValidationErrors([])
+    e.preventDefault()
+    setValidationErrors([])
 
-  const validation = validateCustomerData()
-  if (!validation.isValid) {
-    setValidationErrors(validation.errors)
-    return
+    const validation = validateCustomerData()
+    if (!validation.isValid) {
+      setValidationErrors(validation.errors)
+      return
+    }
+
+    const orderNum = generateSecureOrderId()
+    setOrderNumber(orderNum)
+
+    const whatsappMessage = formatWhatsAppMessage(orderNum)
+    const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "5581995130952"
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`
+
+    setShowConfirmation(true)
+
+    setTimeout(() => {
+      window.location.href = whatsappUrl
+    }, 100)
   }
-
-  // Gerar número do pedido
-  const orderNum = generateSecureOrderId()
-  setOrderNumber(orderNum)
-
-  // Montar mensagem do WhatsApp
-  const whatsappMessage = formatWhatsAppMessage(orderNum)
-  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "5581995130952"
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`
-
-  // Mostrar modal de confirmação
-  setShowConfirmation(true)
-
-  // Abrir WhatsApp direto no mesmo clique do usuário
-  setTimeout(() => {
-    window.location.href = whatsappUrl
-  }, 100) // delay mínimo para garantir que o modal renderize
-}
 
   const handleConfirmationClose = () => {
     setShowConfirmation(false)
     onOrderComplete()
     onClose()
-    // Reset form
     setCustomerData({
       name: "",
       phone: "",
@@ -264,7 +286,7 @@ export function OrderForm({ isOpen, onClose, cartItems, totalPrice, onOrderCompl
                 <div className="flex items-center space-x-3 p-3 rounded-lg border hover:bg-muted/50">
                   <RadioGroupItem value="delivery" id="delivery" />
                   <Label htmlFor="delivery" className="font-semibold">
-                    Entrega (+ R$ 0,00) Em até 6km
+                    Entrega (valor conforme o bairro)
                   </Label>
                 </div>
                 <div className="flex items-center space-x-3 p-3 rounded-lg border hover:bg-muted/50">

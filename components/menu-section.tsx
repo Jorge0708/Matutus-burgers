@@ -40,6 +40,7 @@ export function MenuSection({ title, items, onAddToCart, bgColor = "bg-primary" 
 
       // Acompanhamentos
       "Batata Frita": "/images/burgers/batata.png",
+      "Batata Frita bacon e cheddar": "/images/burgers/batata2.png",
       
     }
     return imageMap[item.name] || "/images/burgers/matutus-burger.jpg"
